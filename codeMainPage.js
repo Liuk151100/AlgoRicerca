@@ -33,6 +33,9 @@ Dopo aver raccolto ed elaborato i dati, e’ il momento di mostrare i risultati 
     Vai passo per passo e usa molti console.log per capire eventualmente dove sbagli
     SUGGERIMENTO: ti servira’ un ciclo for!
 
+
+// NON MODIFICARE QUESTO ARRAY!
+
 */
 
 
@@ -40,38 +43,52 @@ Dopo aver raccolto ed elaborato i dati, e’ il momento di mostrare i risultati 
 // - Dichiaro due variabile per memorizzare il contenuto all'interno dei due campi di ricerca tramite getElementById.
 
 function searchFunction() {
-  let JobFilter = ""
-  let LocFilter = ""
-  JobFilter = document.getElementById("JobFilter").value.toLowerCase().trim()
-  LocFilter = document.getElementById("LocFilter").value.toLowerCase().trim()
-  console.log(JobFilter)
-  console.log(LocFilter)
-  for (let ricerca of jobs) {
-    if (JobFilter === "" && LocFilter === "") {
-      printResult(ricerca)
-    } else {
-      if (ricerca.title.toLowerCase().trim().includes(JobFilter) && ricerca.location.toLowerCase().trim().includes(LocFilter)) {
-        printResult(ricerca)
-      }
-    }
+  let JobFilter = document.getElementById("JobFilter").value.toLowerCase().trim()
+  let LocFilter = document.getElementById("LocFilter").value.toLowerCase().trim()
+
+  const filteredJobs = jobs.filter(job => {
+    const jobTitle = job.title.toLowerCase();
+    const jobLocation = job.location.toLowerCase();
+    return jobTitle.includes(JobFilter) && jobLocation.includes(LocFilter);
+  });
+  return {
+    result: filteredJobs,
+    count: filteredJobs.length
+  };
+}
+
+document.getElementById("searchButton").addEventListener("click", () => {
+
+  // Richiamo la funzione che esegue la ricerca
+  const risultati = searchFunction()
+  //Mostro sull'interfaccia i risultati della ricerca
+  const risultatiDiv = document.getElementById("results")
+  risultatiDiv.innerHTML = `<b>Sono state trovate ${risultati.count} offerte di lavoro<b>`
+  if (risultati.count > 0) {
+    const ol = document.createElement("ol")
+    risultati.result.forEach(job => {
+      const li = document.createElement("li")
+      li.textContent = `${job.title} - ${job.location}`
+      ol.appendChild(li)
+    })
+    risultatiDiv.appendChild(ol)
+  } else {
+    risultatiDiv.innerHTML += "<p>No jobs found.</p>"
   }
-}
+})
 
 
-function printResult(ricerca) {
-  let result = document.createElement("div");
-  result.innerText = ricerca.title + ricerca.location;
-  document.body.appendChild(result);
-}
-// - Dichiaro un array che conterrà tutti i lavori trovati tramite la ricerca effettuata dall'utente
-// - Quando l'operatore preme sul pulsante "cerca" eseguo la funzione ricercaLavoro () che dovrà ciclare l'array jobs e cercare i lavori
-//   filtrandoli con i campi inseriti dall'utente. Ogni volta che verrà trovata una corrispondenza, aggiungerò un elemento all'array creato
-//   in precedenza per contenere i risultati.
-// - In seguito dovrò aggiornare il tag HTML (probabilmente una ul) in modo da far visualizzare i risultati della ricerca
-// - Oltre alla lista contenente i risultati verrà inserita nella pagina html, un tag dove verrà visualizzato il numero di risultati totali trovati.
-//   Questo lo farò stampando direttamento il parametro lenght dell'array dei risultati.
+// Event listener per il bottone "Clear"
+document.getElementById("clearButton").addEventListener("click", () => {
+  // Svuota i campi di input
+  document.getElementById("JobFilter").value = ""
+  document.getElementById("LocFilter").value = ""
 
-// NON MODIFICARE QUESTO ARRAY!
+  // Svuota i risultati
+  const risultatiDiv = document.getElementById("results")
+  risultatiDiv.innerHTML = ""
+});
+
 const jobs = [
   { title: "Marketing Intern", location: "US, NY, New York" },
   { title: "Customer Service - Cloud Video Production", location: "NZ, Auckland", },
@@ -110,4 +127,3 @@ const jobs = [
   { title: "I Want To Work At Karmarama", location: "GB, LND," },
   { title: "English Teacher Abroad", location: "US, NY, Saint Bonaventure", },
 ]
-

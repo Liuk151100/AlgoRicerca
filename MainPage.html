@@ -5,17 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
-    <script src="codeMainPage.js"></script>
     <link rel="stylesheet" href="styleMainPage.css">
 </head>
 
 <body>
-    <div id="Container">
-        <h1>Find your job <br> Create your future</h1>
+    <h1>Find your job <br> Create your future</h1>
+    <div id="jobDescription">
+        <label for="JobFilter">Insert Job Description</label>
         <input type="text" id="JobFilter" placeholder="Job description">
-        <input type="text" id="LocFilter" placeholder="Location">
-        <button id="SearchButton" onclick="searchFunction()">SEARCH</button>
     </div>
+    <div id="Location">
+        <label for="LocFilter">Insert Location</label>
+        <input type="text" id="LocFilter" placeholder="Location">
+    </div>
+    <div id="pulsanti">
+        <button id="searchButton">Search</button>
+        <button id="clearButton">Clear</button>
+    </div>
+    <div id="results"></div>
+
+    <script src="codeMainPage.js"></script>
 </body>
 
 </html>
