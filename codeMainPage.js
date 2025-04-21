@@ -16,8 +16,8 @@ in quanto job2 non soddisfa la condizione posta sulla posizione geografica.
 REQUISITI:
 - il tuo algoritmo deve tornare i risultati nella seguente forma:
 {
-  result: [], <-- inserisci qui le inserzioni che rispecchiano la posizione lavorativa e la posizione geografica richiesta
-  count: 0 <-- inserisci qui il numero totale delle inserzioni trovate
+  offerte: [], <-- inserisci qui le inserzioni che rispecchiano la posizione lavorativa e la posizione geografica richiesta
+  NumOfferteTrovate: 0 <-- inserisci qui il numero totale delle inserzioni trovate
 }
 
 - la tua ricerca deve essere "case insensitive" (non deve essere influenzata da lettere maiuscole o minuscole nelle parole cercate). Questo e' possibile trasformando tutto in lettere minuscole con .toLowerCase()
@@ -32,15 +32,8 @@ Dopo aver raccolto ed elaborato i dati, e’ il momento di mostrare i risultati 
     Puoi scegliere tu se utilizzare un semplice ul / li oppure una tabella 
     Vai passo per passo e usa molti console.log per capire eventualmente dove sbagli
     SUGGERIMENTO: ti servira’ un ciclo for!
-
-
-// NON MODIFICARE QUESTO ARRAY!
-
 */
 
-
-
-// - Dichiaro due variabile per memorizzare il contenuto all'interno dei due campi di ricerca tramite getElementById.
 
 function searchFunction() {
   let JobFilter = document.getElementById("JobFilter").value.toLowerCase().trim()
@@ -52,8 +45,8 @@ function searchFunction() {
     return jobTitle.includes(JobFilter) && jobLocation.includes(LocFilter);
   });
   return {
-    result: filteredJobs,
-    count: filteredJobs.length
+    offerte: filteredJobs,
+    NumOfferteTrovate: filteredJobs.length
   };
 }
 
@@ -62,68 +55,56 @@ document.getElementById("searchButton").addEventListener("click", () => {
   // Richiamo la funzione che esegue la ricerca
   const risultati = searchFunction()
   //Mostro sull'interfaccia i risultati della ricerca
-  const risultatiDiv = document.getElementById("results")
-  risultatiDiv.innerHTML = `<b>Sono state trovate ${risultati.count} offerte di lavoro<b>`
-  if (risultati.count > 0) {
+  const contenitoreRisultati = document.getElementById("offerte")
+  contenitoreRisultati.innerHTML = `<b>Sono state trovate ${risultati.NumOfferteTrovate} offerte di lavoro<b>`
+  if (risultati.NumOfferteTrovate > 0) {
     const ol = document.createElement("ol")
-    risultati.result.forEach(job => {
+    risultati.offerte.forEach(job => {
       const li = document.createElement("li")
       li.textContent = `${job.title} - ${job.location}`
       ol.appendChild(li)
     })
-    risultatiDiv.appendChild(ol)
+    contenitoreRisultati.appendChild(ol)
   } else {
-    risultatiDiv.innerHTML += "<p>No jobs found.</p>"
+    contenitoreRisultati.innerHTML += "<p>Non sono state trovate offerte di lavoro simili.</p>"
   }
 })
 
-
-// Event listener per il bottone "Clear"
-document.getElementById("clearButton").addEventListener("click", () => {
-  // Svuota i campi di input
-  document.getElementById("JobFilter").value = ""
-  document.getElementById("LocFilter").value = ""
-
-  // Svuota i risultati
-  const risultatiDiv = document.getElementById("results")
-  risultatiDiv.innerHTML = ""
-});
-
 const jobs = [
   { title: "Marketing Intern", location: "US, NY, New York" },
-  { title: "Customer Service - Cloud Video Production", location: "NZ, Auckland", },
-  { title: "Commissioning Machinery Assistant (CMA)", location: "US, IA, Wever", },
-  { title: "Account Executive - Washington DC", location: "US, DC, Washington", },
+  { title: "Customer Service - Cloud Video Production", location: "NZ, Auckland" },
+  { title: "Commissioning Machinery Assistant (CMA)", location: "US, IA, Wever" },
+  { title: "Account Executive - Washington DC", location: "US, DC, Washington" },
   { title: "Bill Review Manager", location: "US, FL, Fort Worth" },
   { title: "Accounting Clerk", location: "US, MD," },
   { title: "Head of Content (m/f)", location: "DE, BE, Berlin" },
-  { title: "Lead Guest Service Specialist", location: "US, CA, San Francisco", },
+  { title: "Lead Guest Service Specialist", location: "US, CA, San Francisco" },
   { title: "HP BSM SME", location: "US, FL, Pensacola" },
-  { title: "Customer Service Associate - Part Time", location: "US, AZ, Phoenix", },
-  { title: "ASP.net Developer Job opportunity at United States,New Jersey", location: "US, NJ, Jersey City", },
-  { title: "Talent Sourcer (6 months fixed-term contract)", location: "GB, LND, London", },
-  { title: "Applications Developer, Digital", location: "US, CT, Stamford", },
+  { title: "Customer Service Associate - Part Time", location: "US, AZ, Phoenix" },
+  { title: "ASP.net Developer Job opportunity at United States,New Jersey", location: "US, NJ, Jersey City" },
+  { title: "Talent Sourcer (6 months fixed-term contract)", location: "GB, LND, London" },
+  { title: "Applications Developer, Digital", location: "US, CT, Stamford" },
   { title: "Installers", location: "US, FL, Orlando" },
   { title: "Account Executive - Sydney", location: "AU, NSW, Sydney" },
-  { title: "VP of Sales - Vault Dragon", location: "SG, 01, Singapore", },
+  { title: "VP of Sales - Vault Dragon", location: "SG, 01, Singapore" },
   { title: "Hands-On QA Leader", location: "IL, Tel Aviv, Israel" },
-  { title: "Southend-on-Sea Traineeships Under NAS 16-18 Year Olds Only", location: "GB, SOS, Southend-on-Sea", },
+  { title: "Southend-on-Sea Traineeships Under NAS 16-18 Year Olds Only", location: "GB, SOS, Southend-on-Sea" },
   { title: "Visual Designer", location: "US, NY, New York" },
-  { title: "Process Controls Engineer - DCS PLC MS Office - PA", location: "US, PA, USA Northeast", },
+  { title: "Process Controls Engineer - DCS PLC MS Office - PA", location: "US, PA, USA Northeast" },
   { title: "Marketing Assistant", location: "US, TX, Austin" },
   { title: "Front End Developer", location: "NZ, N, Auckland" },
   { title: "Engagement Manager", location: "AE," },
-  { title: "Vice President, Sales and Sponsorship (Businessfriend.com)", location: "US, CA, Carlsbad", },
+  { title: "Vice President, Sales and Sponsorship (Businessfriend.com)", location: "US, CA, Carlsbad" },
   { title: "Customer Service", location: "GB, LND, London" },
   { title: "H1B SPONSOR FOR L1/L2/OPT", location: "US, NY, New York" },
   { title: "Marketing Exec", location: "SG," },
-  { title: "HAAD/DHA Licensed Doctors Opening in UAE", location: "AE, AZ, Abudhabi", },
-  { title: "Talent Management Process Manager", location: "US, MO, St. Louis", },
+  { title: "HAAD/DHA Licensed Doctors Opening in UAE", location: "AE, AZ, Abudhabi" },
+  { title: "Talent Management Process Manager", location: "US, MO, St. Louis" },
   { title: "Customer Service Associate", location: "CA, ON, Toronto" },
-  { title: "Customer Service Technical Specialist", location: "US, MA, Waltham", },
+  { title: "Customer Service Technical Specialist", location: "US, MA, Waltham" },
   { title: "Software Applications Specialist", location: "US, KS," },
   { title: "Craftsman Associate", location: "US, WA, Everett" },
   { title: "Completion Engineer", location: "US, CA, San Ramon" },
   { title: "I Want To Work At Karmarama", location: "GB, LND," },
-  { title: "English Teacher Abroad", location: "US, NY, Saint Bonaventure", },
-]
+  { title: "English Teacher Abroad", location: "US, NY, Saint Bonaventure" },
+];
